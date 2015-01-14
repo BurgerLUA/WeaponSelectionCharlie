@@ -6,59 +6,117 @@ function FirstWeaponSpawn( ply )
 
 	if not file.Exists( folder, "DATA") then
 		file.CreateDir( folder ) 
-		--print(folder .. " doesn't exist, creating a new one.")
-	else
-		--print(folder .. " exists.")
 	end
 	
-	--print("Folder:" .. folder)
-	
 	if not file.Exists( folder.."/"..storename .. ".txt", "DATA" ) then 
-		file.Write( folder.."/"..storename..".txt", "weapon_cs_usp" )
-		--print(folder.."/"..storename .. ".txt doesn't exist, creating a new one.")
-	else	
-		--print(folder.."/"..storename .. ".txt exists.")
+		file.Write( folder.."/"..storename..".txt", "weapon_cs_m4 weapon_cs_usp false false false false false" )
 	end
 	
 	local weapon = file.Read(folder.."/"..storename ..".txt")
 	
-	ply:SetNWString("SelectionSideArm",weapon)
+	local args = string.Explode( " " , weapon )
+	
+	
+	ply:SetNWString("SelectionPrimary",args[1])
+	ply:SetNWString("SelectionSecondary",args[2])
+	
+	ply:SetNWString("SelectionHE",args[3])
+	ply:SetNWString("SelectionFlash",args[4])
+	ply:SetNWString("SelectionSmoke",args[5])
+	ply:SetNWString("SelectionKnife",args[6])
+	ply:SetNWString("SelectionArmor",args[7])
 	
 end
 
 hook.Add( "PlayerInitialSpawn", "Load Previous Loadout", FirstWeaponSpawn )
 
 
-function GivePlayerAWeapon( ply, cmd, args )
+function GivePlayerAWeapon( ply, cmd, arg )
 
 	local storename = string.gsub(ply:SteamID(), ":", "_")
 
-	if type(args[1]) ~= "string" then 
-		print("Can someone tell " .. ply:Nick() .. " to stop being a faggot?")
-	return end
+	local weapon1
+	local weapon2
 	
-	local weapon = weapons.GetStored(args[1])
 	
-	if weapon.Base ~= "weapon_cs_base" then
-		print("Can someone tell " .. ply:Nick() .. " to seriously stop being a faggot?")
-	return end
 	
-	if weapon.WeaponType ~= "Secondary" then
-		print("I'm really going to have to tell " .. ply:Nick() .. " to seriously stop being a faggot myself.")
-	return end
+	local args = string.Explode(" ", arg[1])
+	
+	
+	--PrintTable(args)
+	
+	--if IsValid(args[1]) then
+	
+		if type(args[1]) ~= "string" then 
+			print("Can someone tell " .. ply:Nick() .. " to stop being a faggot?")
+		return end
+	
+		weapon1 = weapons.GetStored(args[1])
+
+		if weapon1.Base ~= "weapon_cs_base" then
+			print("Can someone tell " .. ply:Nick() .. " to seriously stop being a faggot?")
+		return end
+
+		if weapon1.WeaponType ~= "Primary" then
+			print("I'm really going to have to tell " .. ply:Nick() .. " to seriously stop being a faggot myself.")
+		return end
+		
+	--end
+	
+	--if IsValid(args[2]) then
+	
+		if type(args[2]) ~= "string" then 
+			print("Can someone tell " .. ply:Nick() .. " to stop being a faggot?")
+		return end
+	
+		weapon2 = weapons.GetStored(args[2])
+		
+		if weapon2.Base ~= "weapon_cs_base" then
+			print("Can someone tell " .. ply:Nick() .. " to seriously stop being a faggot?")
+		return end
+
+		if weapon2.WeaponType ~= "Secondary" then
+			print("I'm really going to have to tell " .. ply:Nick() .. " to seriously stop being a faggot myself.")
+		return end
+		
+	--end
+	
+	--[[
+	if IsValid(args[3]) then
+		if args[3] == true then
+			
+		end
+	end
+	
+	if IsValid(args[4]) then
+		if args[3] == true then
+		
+		end
+	end
+	
+	if IsValid(args[5]) then
+		if args[3] == true then
+		
+		end
+	end
+	--]]
 	
 
-	--print("Player " .. ply:Nick() .. " wrote " .. args[1] .. " to the file " .. folder.."/"..storename .. ".txt" )
+	--print("Player " .. ply:Nick() .. " wrote " .. arg[1] .. " to the file " .. folder.."/"..storename .. ".txt" )
 	
-	file.Write( folder.."/"..storename..".txt", args[1]  )
+	ply:SetNWString("SelectionPrimary",args[1])
+	ply:SetNWString("SelectionSecondary",args[2])
 	
-	ply:SetNWString("SelectionSideArm",args[1])
-
+	ply:SetNWString("SelectionHE",args[3])
+	ply:SetNWString("SelectionFlash",args[4])
+	ply:SetNWString("SelectionSmoke",args[5])
+	ply:SetNWString("SelectionKnife",args[6])
+	ply:SetNWString("SelectionArmor",args[7])
 	
-	--ply:ChatPrint("Your loadout will change next spawn")
+	file.Write( folder.."/"..storename..".txt", arg  )
 
 end
- 
+
 concommand.Add("weapon_take", GivePlayerAWeapon)
 
 
@@ -71,23 +129,46 @@ function PlayerSpawn(ply)
 	
 		ply:Give("gmod_tool")
 		ply:Give("weapon_physgun")
+
+		local Secondary = ply:GetNWString("SelectionSecondary",nil)
+		if Secondary ~= nil then
+			ply:ConCommand("gm_giveswep " .. Secondary)
+			--ply:Give(Secondary)
+		end	
 		
-		local weapon = ply:GetNWString("SelectionSideArm",nil)
-		
-		if weapon ~= nil then
-			ply:ConCommand("gm_giveswep " .. weapon)
-			
-			--[[timer.Simple(1, function()
-				for k,v in pairs( ply:GetWeapons() ) do
-					if v:GetClass() == weapon then
-						ply:SetActiveWeapon(v)
-					end
-				end
-			end)--]]
-			
-			
+		local Primary = ply:GetNWString("SelectionPrimary",nil)
+		if Primary ~= nil then
+			ply:ConCommand("gm_giveswep " .. Primary)
+			--ply:Give(Primary)
 		end
 		
+
+		
+		if ply:GetNWString("SelectionHE","false") == "true" then
+			ply:Give("weapon_cs_he")
+		end
+		
+		if ply:GetNWString("SelectionFlash","false") == "true" then
+			ply:Give("weapon_cs_flash")
+		end
+		
+		if ply:GetNWString("SelectionSmoke","false") == "true" then
+			ply:Give("weapon_cs_smoke")
+		end
+		
+		if ply:GetNWString("SelectionKnife","false") == "true" then
+			ply:Give("weapon_cs_knife")
+		end
+		
+		if ply:GetNWString("SelectionArmor","false") == "true" then
+			timer.Simple(0,function()
+				ply:SetArmor(100)
+			end)
+		end
+		
+		
+		
+
 	end
 	
 end
