@@ -113,7 +113,9 @@ function GivePlayerAWeapon( ply, cmd, arg )
 	ply:SetNWString("SelectionKnife",args[6])
 	ply:SetNWString("SelectionArmor",args[7])
 	
-	file.Write( folder.."/"..storename..".txt", arg  )
+	local why = args[1] .. " " .. args[2] .. " " .. args[3] .. " " .. args[4] .. " " .. args[5] .. " " .. args[6] .. " " .. args[7]
+	
+	file.Write( folder.."/"..storename..".txt", why  )
 
 end
 
