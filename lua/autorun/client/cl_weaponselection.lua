@@ -169,6 +169,7 @@ function WeaponSelectionMenu()
 		KnifeCheckbox.Bool = KnifeCheckbox:GetChecked()
 	end
 	
+	--[[
 	local ArmorCheckbox = vgui.Create( "DCheckBoxLabel", MenuBase )// Create the checkbox
 	ArmorCheckbox:SetPos(MenuBase:GetWide() - MenuBase:GetWide()/3, MenuBase:GetTall()/3 + 100 + 30 + 20 + 20 + 20 + 20) 
 	ArmorCheckbox:SetText("100 Armor")
@@ -177,6 +178,7 @@ function WeaponSelectionMenu()
 	ArmorCheckbox.OnChange = function()
 		ArmorCheckbox.Bool = ArmorCheckbox:GetChecked()
 	end
+	--]]
 	
 	if LocalPlayer():GetNWString("SelectionHE","false") == "true" then
 		HECheckbox:SetChecked(true)

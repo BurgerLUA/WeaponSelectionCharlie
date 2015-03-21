@@ -162,12 +162,13 @@ function PlayerSpawn(ply)
 			ply:Give("weapon_cs_knife")
 		end
 		
+		--[[
 		if ply:GetNWString("SelectionArmor","false") == "true" then
 			timer.Simple(0,function()
 				ply:SetArmor(100)
 			end)
 		end
-		
+		--]]
 		
 		
 
