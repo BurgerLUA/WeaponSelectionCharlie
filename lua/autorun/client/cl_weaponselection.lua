@@ -78,11 +78,6 @@ function WeaponSelectionMenu()
 			end
 		end
 	end
-	
-	
-
-	
-
 
 	table.sort(PrimaryWeapons)
 	table.sort(SecondaryWeapons)
@@ -200,11 +195,13 @@ function WeaponSelectionMenu()
 		KnifeCheckbox.Bool = true
 	end
 	
+	--[[
 	if LocalPlayer():GetNWString("SelectionArmor","false") == "true" then
 		ArmorCheckbox:SetChecked(true)
 		ArmorCheckbox.Bool = true
 	end
-
+	--]]
+	
 	function AddWeapon(class)
 	
 		local SWEP = weapons.Get(class)
@@ -263,14 +260,6 @@ function WeaponSelectionMenu()
 		else
 			text = text .. " " .. "false"
 		end
-		
-		if ArmorCheckbox.Bool == true then
-			text = text .. " " .. "true"
-		else
-			text = text .. " " .. "false"
-		end
-
-		print(text)
 		
 		RunConsoleCommand("weapon_take",text)
 

@@ -9,7 +9,7 @@ function FirstWeaponSpawn( ply )
 	end
 	
 	if not file.Exists( folder.."/"..storename .. ".txt", "DATA" ) then 
-		file.Write( folder.."/"..storename..".txt", "weapon_cs_m4 weapon_cs_usp false false false false false" )
+		file.Write( folder.."/"..storename..".txt", "weapon_cs_m4 weapon_cs_usp false false false false" )
 	end
 	
 	local weapon = file.Read(folder.."/"..storename ..".txt")
@@ -24,7 +24,6 @@ function FirstWeaponSpawn( ply )
 	ply:SetNWString("SelectionFlash",args[4])
 	ply:SetNWString("SelectionSmoke",args[5])
 	ply:SetNWString("SelectionKnife",args[6])
-	ply:SetNWString("SelectionArmor",args[7])
 	
 end
 
@@ -111,9 +110,9 @@ function GivePlayerAWeapon( ply, cmd, arg )
 	ply:SetNWString("SelectionFlash",args[4])
 	ply:SetNWString("SelectionSmoke",args[5])
 	ply:SetNWString("SelectionKnife",args[6])
-	ply:SetNWString("SelectionArmor",args[7])
+
 	
-	local why = args[1] .. " " .. args[2] .. " " .. args[3] .. " " .. args[4] .. " " .. args[5] .. " " .. args[6] .. " " .. args[7]
+	local why = args[1] .. " " .. args[2] .. " " .. args[3] .. " " .. args[4] .. " " .. args[5] .. " " .. args[6]
 	
 	file.Write( folder.."/"..storename..".txt", why  )
 
