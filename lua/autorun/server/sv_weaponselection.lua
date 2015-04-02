@@ -25,6 +25,10 @@ function FirstWeaponSpawn( ply )
 	ply:SetNWString("SelectionSmoke",args[5])
 	ply:SetNWString("SelectionKnife",args[6])
 	
+	ply:SendLua(
+		[[chat.AddText(Color(255,255,255), "This server is running Weapon Selection Charlie. Press",Color(0,255,0),"  F4 ",Color(255,255,255),Color(255,255,255),"to access the weapon selection menu.")]]
+	)
+	
 end
 
 hook.Add( "PlayerInitialSpawn", "Load Previous Loadout", FirstWeaponSpawn )
